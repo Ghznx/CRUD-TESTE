@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PatchMapping;
 
 import br.com.senai.teste.dto.EmprestimoRequest;
 import br.com.senai.teste.model.Emprestimo;
@@ -57,6 +58,17 @@ public class EmprestimoController {
     @GetMapping("/{id}")
     public ResponseEntity<Emprestimo> buscarPorId(@PathVariable Integer id) {
         Optional<Emprestimo> emprestimo = emprestimoService.buscarPorId(id);
+
+        if (emprestimo.isPresent()) {
+            return ResponseEntity.ok(emprestimo.get());
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @PatchMapping("/{id}/devolucao")
+    public ResponseEntity<Emprestimo> devolver(@PathVariable Integer id) {
+        Optional<Emprestimo> emprestimo = emprestimoService.devolver(id);
 
         if (emprestimo.isPresent()) {
             return ResponseEntity.ok(emprestimo.get());
