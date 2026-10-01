@@ -36,10 +36,10 @@ public class EmprestimoService {
             return Optional.empty();
         }
         
-        boolean livroEmprestado = emprestimoRepository.existsByAlunoIdAndLivroIdAndDataDevolucaoIsNull(livroId);
+        boolean livroEmprestado = emprestimoRepository.existsByLivroIdAndDataDevolucaoIsNull(livroId);
         if (livroEmprestado) {
             throw new ResponseStatusException(
-                HttpStatus.CONFLICT, "O livro já está emprestado para este aluno.");
+                HttpStatus.CONFLICT, "O livro já está emprestado.");
         }
 
         Emprestimo emprestimo = new Emprestimo();   
@@ -73,5 +73,13 @@ public class EmprestimoService {
         }
 
         return Optional.of(emprestimo);
+    }
+
+    public List<Emprestimo> listarAtivos() {
+        return emprestimoRepository.findByDataDevolucaoIsNull();
+    } 
+
+    public List<Emprestimo> listarPorAluno(Integer alunoId) {
+        return emprestimoRepository.findByAlunoId(alunoId);
     }
 }

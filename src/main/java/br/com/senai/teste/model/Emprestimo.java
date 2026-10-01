@@ -16,7 +16,8 @@ import jakarta.persistence.Table;
 @Table(name = "emprestimo")
 public class Emprestimo {
     private LocalDate dataDevolucao;
-    
+    private LocalDate dataPrevistaDevolucao;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -75,5 +76,13 @@ public class Emprestimo {
 
     public void setDataDevolucao(LocalDate dataDevolucao) {
         this.dataDevolucao = dataDevolucao;
+    }
+
+    public LocalDate getDataPrevistaDevolucao() {
+        return dataPrevistaDevolucao;
+    }
+
+    public void setDataPrevistaDevolucao(LocalDate dataPrevistaDevolucao) {
+        this.dataPrevistaDevolucao = dataPrevistaDevolucao;
     }
 }
