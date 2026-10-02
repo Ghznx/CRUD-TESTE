@@ -1,6 +1,7 @@
 package br.com.senai.teste.model;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,20 +10,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
+import java.math.BigDecimal;
 
 
 @Entity
 @Table(name = "emprestimo")
 public class Emprestimo {
+
+    private LocalDate dataEmprestimo;
     private LocalDate dataDevolucao;
     private LocalDate dataPrevistaDevolucao;
+    private static final BigDecimal MULTA_POR_DIA = new BigDecimal("2.00");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private LocalDate dataEmprestimo;
     
     @ManyToOne
     @JoinColumn(name = "aluno_id")
@@ -77,12 +80,49 @@ public class Emprestimo {
     public void setDataDevolucao(LocalDate dataDevolucao) {
         this.dataDevolucao = dataDevolucao;
     }
-
+    
     public LocalDate getDataPrevistaDevolucao() {
         return dataPrevistaDevolucao;
     }
 
     public void setDataPrevistaDevolucao(LocalDate dataPrevistaDevolucao) {
         this.dataPrevistaDevolucao = dataPrevistaDevolucao;
+    } 
+
+    public String getSituacao() {
+        if (dataDevolucao != null) {
+
+            return "Devolvido";
+        } else if (dataPrevistaDevolucao == null) {
+
+            return "Sem_Previsão";
+        } else if (dataPrevistaDevolucao.isBefore(LocalDate.now())) {
+
+            return "Atrasado";
+        } else {
+
+            return "Ativo";
+        }
+    }
+
+    public long getDiasAtraso() {
+        
+        LocalDate dataFinal;
+
+        if(dataPrevistaDevolucao == null) {
+            return 0;
+        }
+
+        if (dataDevolucao == null) {
+            dataFinal = LocalDate.now();
+        } else {
+            dataFinal = dataDevolucao;
+        }
+
+        return ChronoUnit.DAYS.between(dataPrevistaDevolucao, dataFinal);
+    } 
+
+    public BigDecimal getValorMulta() {
+        return MULTA_POR_DIA.multiply(BigDecimal.valueOf(getDiasAtraso()));
     }
 }
