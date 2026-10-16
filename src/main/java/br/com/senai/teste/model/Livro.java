@@ -25,6 +25,8 @@ public class Livro {
     @Min(value = 1, message = "O ano de publicação deve ser maior que zero.")
     private String anoPublicacao;
 
+    private String nomeArquivoCapa;
+
     public Livro() {
     }
 
@@ -60,5 +62,13 @@ public class Livro {
 
     public void setAnoPublicacao(String anoPublicacao) {
         this.anoPublicacao = anoPublicacao;
+    }
+
+    public String getNomeArquivoCapa() {
+        return nomeArquivoCapa;
+    }
+
+    public void setNomeArquivoCapa(String nomeArquivoCapa) {
+        this.nomeArquivoCapa = nomeArquivoCapa;
     }
 }

@@ -8,13 +8,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import jakarta.validation.Valid;
 
 import br.com.senai.teste.model.Aluno;
+import br.com.senai.teste.model.Livro;
 import br.com.senai.teste.service.AlunoService;
 
 @RestController 
@@ -84,5 +87,15 @@ public class AlunoController {
         }
 
         return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/{id}/foto")
+    public ResponseEntity<Aluno> enviarFoto(
+            @PathVariable Integer id,
+            @RequestParam("arquivo") MultipartFile arquivo) {
+            
+        Aluno alunoAtualizado = alunoService.salvarFoto(id, arquivo);
+
+        return ResponseEntity.ok(alunoAtualizado);
     }
 }

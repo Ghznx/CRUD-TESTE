@@ -23,6 +23,8 @@ public class Aluno {
     @Email (message = "O email do aluno deve ser válido.")
     private String email;
 
+    private String nomeArquivoFoto;
+
     public Aluno() {
     }
 
@@ -49,5 +51,13 @@ public class Aluno {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getNomeArquivoFoto() {
+        return nomeArquivoFoto;
+    }
+
+    public void setNomeArquivoFoto(String nomeArquivoFoto) {
+        this.nomeArquivoFoto = nomeArquivoFoto;
     }
 }
