@@ -24,7 +24,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> cadastrar(
+    public ResponseEntity<UsuarioResponse> cadastrar(
             @Valid @RequestBody  UsuarioRequest dados) {
         
         Usuario usuarioCadastrado =
@@ -34,6 +34,6 @@ public class UsuarioController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(usuarioCadastrado);
+                .body(usuarioResponse);
     }
 }
